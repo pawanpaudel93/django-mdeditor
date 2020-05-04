@@ -2,35 +2,73 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-
 DEFAULT_CONFIG = {
+    'language': 'en',  # zh / en
+    'mode': "gfm",
+    'value': "",
+    'goto_line': True,
+    'code_fold': False,
+    'watch': True,  # Live preview
+    'theme': "",
+    'preview_theme': "",
+    'editor_theme': "default",
+    'line_wrapping': False,  # lineWrapping
+    'line_numbers': False,  # lineNumbers,
     'width': '100%',
     'height': 500,
-    'toolbar': ["undo", "redo", "|",
-                "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
-                "h1", "h2", "h3", "h5", "h6", "|",
-                "list-ul", "list-ol", "hr", "|",
-                "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime",
-                "emoji", "html-entities", "pagebreak", "goto-line", "|",
-                "help", "info",
-                "||", "preview", "watch", "fullscreen"],
+    'auto_height': False,
+    'auto_focus': True,
+    'placeholder': "",
+    'auto_close_tags': True,
+    'sync_scrolling': True,
+    'tab_size': 4,
+    'indent_unit': 4,
+    'auto_close_brackets': True,
+    'show_trailing_space': True,
+    'match_brackets': True,
+    'indent_with_tabs': True,
+    'style_selected_text': True,
+    'match_word_highlight': True,
+    'style_active_line': True,
+    'dialog_lock_screen': True,
+    'dialog_show_mask': True,
+    'dialog_draggable': True,
+    'dialog_maskbg_color': "#fff",
+    'dialog_mask_opacity': 0.1,
+    'font_size': "13px",
+    
+    'plugin_path': "",
+    'delay': 300,
+    'search_replace': True,
+
+    'image_upload': True,
     'upload_image_formats': ["jpg", "JPG", "jpeg", "JPEG", "gif", "GIF", "png",
                              "PNG", "bmp", "BMP", "webp", "WEBP"],
     'image_folder': 'editor',
-    'theme': 'default',  # dark / default
-    'preview_theme': 'default',  # dark / default
-    'editor_theme': 'default',  # pastel-on-dark / default
-    'toolbar_autofixed': True,
-    'search_replace': True,
+    'image_upload_url': "/mdeditor/uploads/",
+    'cross_domain_upload': False,
+    'upload_callbackurl': "",
+
+    'toc': True,
+    'tocm': False,
+    'toc_title': "",
+    'toc_dropdown': False,
+    'toc_container': "",
+    'toc_startlevel': 1,
+
     'emoji': True,
     'tex': True,
-    'task_list': False,
+    'task_list': True,
     'flow_chart': True,
     'sequence': True,
-    'language': 'zh',  # zh / en
-    'watch': True,  # Live preview
-    'lineWrapping': False,  # lineWrapping
-    'lineNumbers': False  # lineNumbers
+    'preview_code_highlight': True,
+
+    'html_decode': True,
+    'page_break': True,
+    'at_link': True,
+    'email_link': True,
+
+    'toolbar_icons': "full"
 }
 
 
@@ -67,4 +105,3 @@ class MDConfig(dict):
             else:
                 raise ImproperlyConfigured('MDEDITOR_CONFIGS setting must be a\
                                 dictionary type.')
-

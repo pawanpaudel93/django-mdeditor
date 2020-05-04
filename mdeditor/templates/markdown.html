@@ -44,16 +44,21 @@
 <script src="{% static 'mdeditor/languages/de.js' %}"></script>
 {% endif %}
 <script type="text/javascript">
-
     $(function () {
         editormd("{{ id }}-wmd-wrapper", {
-            watch: {{ config.watch|lower }}, // 关闭实时预览
-            lineNumbers: {{ config.lineNumbers|lower }},
-            lineWrapping: {{ config.lineWrapping|lower }},
+            mode: "{{ config.mode }}", // gfm or markdown
+            value: "{{ config.value }}", // value for CodeMirror, if mode not gfm/markdown
+            gotoLine: {{ config.goto_line|lower }}, // Enable / disable goto a line
+            codeFold: {{config.code_fold|lower}},
+            watch: {{ config.watch|lower }}, // Turn off live preview
+            lineNumbers: {{ config.line_numbers|lower }},
+            lineWrapping: {{ config.line_wrapping|lower }},
             width: "{{ config.width }}",
             height: {{ config.height }},
+            autoHeight: {{ config.auto_height|lower }},
+            autoFocus: {{ config.auto_focus|lower }},           // Enable / disable auto focus editor left input area
             placeholder: '{{ config.placeholder }}',
-            // 当有多个mdeditor时，全屏后，其他mdeditor仍然显示，解决此问题。
+            // When there are multiple mdeditors, after full screen, other mdeditors are still displayed, solving this problem.
             onfullscreen : function() {
                 this.editor.css("border-radius", 0).css("z-index", 9999);
             },
@@ -63,29 +68,65 @@
                     border : "1px solid rgb(221,221,221)"
                 })
             },
-            syncScrolling: "single",
+            autoCloseTags: {{ config.auto_close_tags|lower }},
+            syncScrolling: {{ config.sync_scrolling|yesno:"true,false,'single'"}},   // options: true | false | "single", default true
+            tabSize: {{ config.tab_size }},
+            indentUnit: {{ config.indent_unit }},
+            autoCloseBrackets: {{ config.auto_close_brackets|lower }},
+            showTrailingSpace: {{ config.show_trailing_space|lower }},
+            matchBrackets: {{ config.match_brackets|lower }},
+            indentWithTabs: {{ config.indent_with_tabs|lower }},
+            styleSelectedText: {{ config.style_selected_text|lower }},
+            matchWordHighlight: {{ config.match_word_highlight|lower }},           // options: true, false, "onselected"
+            styleActiveLine: {{ config.style_active_line|lower }},           // Highlight the current line
+            dialogLockScreen: {{ config.dialog_lock_screen|lower }},
+            dialogShowMask: {{ config.dialog_show_mask|lower }},
+            dialogDraggable: {{ config.dialog_draggable|lower }},
+            dialogMaskBgColor: "{{ config.dialog_maskbg_color }}",
+            dialogMaskOpacity: {{ config.dialog_mask_opacity }},
+            fontSize: "{{ config.font_size }}",
+
             path: "{% static  'mdeditor/js/lib/' %}",
+            pluginPath: "{{ config.plugin_path }}", // If this empty, default use settings.path + "../plugins/"
+            delay: {{config.delay}}, // Delay parse markdown to html, Uint : ms
+
             // theme
             theme : "{{ config.theme|safe }}",
             previewTheme : "{{ config.preview_theme|safe }}",
             editorTheme : "{{ config.editor_theme }}",
 
-            saveHTMLToTextarea: true, // editor.md 有问题没有测试成功
-            toolbarAutoFixed: {{ config.toolbar_autofixed|lower }},
-            searchReplace: {{ config.search_replace|lower }},
+            saveHTMLToTextarea: true, // editor.md There is a problem, no test success
+            searchReplace: {{ config.search_replace|lower }}, // Enable / disable (CodeMirror) search and replace function
             emoji: {{ config.emoji|lower }},
             tex: {{ config.tex|lower }},
             taskList: {{ config.task_list|lower }},
             flowChart: {{ config.flow_chart|lower }},
             sequenceDiagram: {{ config.sequence|lower }},
+            previewCodeHighlight : {{ config.preview_code_highlight|lower }},
 
+            //html
+            htmlDecode: {{ config.html_decode|lower }},          // Open the HTML tag identification
+            pageBreak: {{ config.page_break|lower }},           // Enable parse page break [========]
+            atLink: {{ config.at_link|lower }},           // for @link
+            emailLink: {{ config.email_link|lower }},           // for email address auto link
+
+            //toc
+            toc: {{ config.toc|lower }},           // Table of contents
+            tocm: {{ config.tocm|lower }},          // Using [TOCM], auto create ToC dropdown menu
+            tocTitle: "{{ config.toc_title }}",             // for ToC dropdown menu button
+            tocDropdown: {{ config.toc_dropdown|lower }},          // Enable/disable Table Of Contents dropdown menu
+            tocContainer: "{{ config.toc_container}}",             // Custom Table Of Contents Container Selector
+            tocStartLevel: {{ config.toc_startlevel }},              // Said from H1 to create ToC
+
+            //toolbar
+            toolbarIcons: "{{ config.toolbar_icons|safe }}",
             // image upload
-            imageUpload: true,
+            imageUpload: {{config.image_upload|lower}},
             imageFormats: {{ config.upload_image_formats|safe }},
-            imageUploadURL: "/mdeditor/uploads/",
-            toolbarIcons: function () {
-                return {{ config.toolbar|safe }}
-            },
+            imageUploadURL: "{{ config.image_upload_url }}",
+            crossDomainUpload: {{ config.cross_domain_upload|lower }},          // Enable/disable Cross-domain upload
+            uploadCallbackURL: "{{ config.upload_callbackurl }}",             // Cross-domain upload callback url
+
             onload: function () {
                 console.log('onload', this);
                 //this.fullscreen();

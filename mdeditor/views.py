@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .configs import MDConfig
 
-# TODO 此处获取default配置，当用户设置了其他配置时，此处无效，需要进一步完善
+# TODO Get the default configuration here, when the user sets other configurations, it is invalid here and needs further improvement
 MDEDITOR_CONFIGS = MDConfig('default')
 
 
@@ -28,7 +28,7 @@ class UploadView(generic.View):
         if not upload_image:
             return JsonResponse({
                 'success': 0,
-                'message': "未获取到要上传的图片",
+                'message': "No image to be uploaded",
                 'url': ""
             })
 
@@ -39,7 +39,7 @@ class UploadView(generic.View):
         if file_extension not in MDEDITOR_CONFIGS['upload_image_formats']:
             return JsonResponse({
                 'success': 0,
-                'message': "上传图片格式错误，允许上传图片格式为：%s" % ','.join(
+                'message': "The format of the uploaded image is wrong. The format of the allowed upload image is：%s" % ','.join(
                     MDEDITOR_CONFIGS['upload_image_formats']),
                 'url': ""
             })
@@ -52,7 +52,7 @@ class UploadView(generic.View):
             except Exception as err:
                 return JsonResponse({
                     'success': 0,
-                    'message': "上传失败：%s" % str(err),
+                    'message': "upload failed：%s" % str(err),
                     'url': ""
                 })
 
@@ -65,7 +65,7 @@ class UploadView(generic.View):
                 file.write(chunk)
 
         return JsonResponse({'success': 1,
-                             'message': "上传成功！",
+                             'message': "Uploaded successfully!",
                              'url': os.path.join(settings.MEDIA_URL,
                                                  MDEDITOR_CONFIGS['image_folder'],
                                                  file_full_name)})
