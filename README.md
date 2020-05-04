@@ -37,9 +37,7 @@
 
 - Installation.
 ```bash
-    pipenv install django-mdeditor
-    # or
-    pip install django-mdeditor
+    pip3 install git+https://github.com/pawanpaudel93/django-mdeditor.git@22cfd4cfa89d70bc124d3168211f9c332f03a309#egg=django-mdeditor
 ```
 
 - Add `mdeditor` to your INSTALLED_APPS setting like this:
